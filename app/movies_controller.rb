@@ -7,10 +7,9 @@ require 'pry'
 # end                              # end
 
 def can_be_instantiated_and_then_saved
-  title = {"This is a title"}
-  movie = Movie.new(:title)
+  movie = Movie.new
+  movie.title = "This is a title."
   movie.save
-  movie
 end
 
 def can_be_created_with_a_hash_of_attributes
@@ -22,32 +21,39 @@ def can_be_created_with_a_hash_of_attributes
       lead: "Paul Newman",
       in_theaters: false
   }
+  
+  movie=Movie.create(attributes) 
 end
 
-def can_be_created_in_a_block(args = __)
+def can_be_created_in_a_block(args = { title: "Home Alone", release_date: 1990 })
   # If no arguments are passed, use default values:
   # title == "Home Alone"
   # release_date == 1990
   
   Movie.create do |m|
-    __
+    m.title = args[:title]
+    m.release_date = args[:release_date]
+    m.director = args[:director]
+    m.lead = args[:lead]
+    m.in_theaters = args[:in_theaters]
+    m.save
   end
 end
 
 def can_get_the_first_item_in_the_database
-  __
+  movie = Movie.first
 end
 
 def can_get_the_last_item_in_the_database
-  __
+  movie = Movie.last
 end
 
 def can_get_size_of_the_database
-  __
+  movie = Movie.count
 end
 
 def can_find_the_first_item_from_the_database_using_id
-  __
+  movie = Movie.find_by(id='1')
 end
 
 def can_find_by_multiple_attributes
@@ -55,7 +61,7 @@ def can_find_by_multiple_attributes
   # title == "Title"
   # release_date == 2000
   # director == "Me"
-  __
+  movie = Movie.find_by(id,title,release_date,director)
 end
 
 def can_find_using_where_clause_and_be_sorted
